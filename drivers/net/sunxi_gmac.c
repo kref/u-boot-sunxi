@@ -12,6 +12,11 @@ int sunxi_gmac_initialize(bd_t *bis)
 	struct sunxi_ccm_reg *const ccm =
 		(struct sunxi_ccm_reg *)SUNXI_CCM_BASE;
 
+#ifdef CONFIG_SUNXI_GMAC_REGULATOR
+	/* turn on regulator for mac and phy */
+	gpio_direction_output(CONFIG_SUNXI_GMAC_REGULATOR, 1);
+#endif
+
 	/* Set up clock gating */
 	setbits_le32(&ccm->ahb_gate1, 0x1 << AHB_GATE_OFFSET_GMAC);
 
